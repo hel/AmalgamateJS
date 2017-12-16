@@ -345,27 +345,6 @@ angular.module('amalgamate.directives.forms', [])
 		};	
 	}])
 
-	.directive('xgLoader', [function(){
-		
-		"use strict";
-		
-		return{
-			restrict:'E',
-			replace:true,
-			scope:{
-				content:'@'
-			},
-			controller:function(){
-				$('#xg-loader>div').addClass('blink');
-			},
-			template:	
-				'<div id="xg-loader">'+
-					'<img src="https://www.veracheck.com/bin/images/loader.gif">'+
-					'<div>{{content}}</div>'+
-				'</div>'
-		};
-	}])
-
 	.directive('normalizeDataType', function(){
 	
 		"use strict";
