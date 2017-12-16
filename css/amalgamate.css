@@ -1,0 +1,1530 @@
+/*
+	Name: 			Breakpoint.css
+						
+	Description: 	Used to make showing and hiding elements
+				 	based on typical breakpoints easy.
+					
+	Created: 		August 13, 2015
+	Created By: 	DBG
+	
+	Last Modified: 	December 14, 2017
+	Modified By: 	DBG
+	
+	Modified Notes: March 14, 2016 - Added block override to show block rather than
+									 inline-block.
+									 
+					October 20, 2016 - Add functionality for tables.
+
+					December 14, 2017 - Add grid functionality and limit overall functionality
+										to amalgamate with the .xg class.
+														 
+	Notes: 			1. Add table row support.  Table rows use - display:table-row
+					2. Add breakpoint classes to the NO MEDIA QUERIES support (IE7 / IE8). This
+						is already done for the grid.
+	
+	<<< --------------------------------------------->>>
+	
+	phone - Show element on phone. (0em/0px - 39.9375em/639px)
+	tablet - Show element on tablet. (40em/640px - 47.9375em/767px)
+	xs-desktop - Show element on extra small desktop. (48em/768px - 63.9375em/1023px)
+	sm-desktop - Show element on small desktop. (64em/1024px - 79.9375em/1279px)
+	md-desktop - Show element on medium desktop. (80em/1280px - 85.3125em/1365px)
+	lg-desktop - Show element on large desktop. (85.375em/1366px - 119.9375em/1919px)
+	xl-desktop - Show element on extra large desktop. (>= 120em/1920px)
+	
+	desktop - Show element on all desktop sizes. (>= 48em/768px)
+	
+	not - Keyword used to negate a view.
+	
+		  Ex.: not-md-desktop - will show element on all views 
+								except medium desktop. 
+								
+		  Note: Overrides all other classes.
+	
+	over - Keyword used to show element on all views greater 
+		   than the selected one.
+		   
+		   Ex.: over-md-desktop - will show element on all views
+		   						  greater than medium desktop including
+								  large and extra large desktop.
+								  
+	under - Keyword used to show element on all views less than
+			the selected one.
+			
+			Ex.: under-md-desktop - will show element on all views less
+									than the medium desktop including
+									small and extra small desktops, tablet,
+									and phone views.
+									
+	Note: Duplicate table cell classes are included (th/td) because their display
+		  property needs set to table-cell when being shown while all other 
+		  elements are set to inline-block when shown.  The class names are identical in use.
+		  
+		  Ex.: <div class="desktop"> is set to display:inline-block in all desktop views.
+		  	   <th class="desktop"> is set to display:table-cell in all desktop views.
+
+	Note: Keywords are not necessary for the grid classes because they have overrides from samll to
+			large. Placing a column size grid class on an element will enable that class for
+			that size and all sizes above it until/if a higher display size is included.
+
+		  Ex.: 	<div class="col-12"> will be size 12 column (100% width) for every breakpoint size.
+				<div class="col-12 col-sm-6"> will be size 12 up to and including extra small desktop
+				and then will become size 6 (50% width) for small and larger desktops.
+				<div class="col-12 col-sm-6 col-md-3"> will be size 12 up to extra small desktop, 
+				size 6 for small desktop, and size 3 for medium and larger desktops.
+	
+	<<< --------------------------------------------->>>
+*/
+/* ------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------- */
+
+@charset "utf-8";
+/* CSS Document */
+
+* {
+	margin: 0;
+	padding: 0; 
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+	width:auto;
+	height:auto;
+}
+
+html, body{
+	padding:0px;
+	margin:0px;
+	width:100%;
+	height:100%;
+	max-width: 100%;
+}
+
+body{
+	overflow-x: hidden;
+	overflow-y:auto;
+}
+
+div, span, a, p{
+	position:relative;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*
+	Base Components
+*/
+
+
+
+.xg .ellipsis{
+	overflow:hidden;
+	white-space:nowrap;
+	width:100%;
+	text-overflow: ellipsis;
+	padding:0px 10px;
+}
+
+/*  Grid Defaults */
+
+.xg .grid{
+	display:block;
+	overflow:auto;
+	padding:10px 0px;
+}
+
+.xg .grid>.row{
+	display:block;
+	overflow:auto;
+	padding:0px 10px
+}
+
+.xg .grid .row>div{
+	display:block;
+	float:left;
+}
+
+.xg .col{
+	display:block;
+	padding:10px;
+}
+
+.xg .col-12{width:100%;}
+.xg .col-11{width:91.6666666666%;}
+.xg .col-10{width:83.3333333333%;}
+.xg .col-9{width:74.9999999999%;}
+.xg .col-8{width:66.6666666666%;}
+.xg .col-7{width:58.3333333333%;}
+.xg .col-6{width:49.9999999999%;}
+.xg .col-5{width:41.6666666666%;}
+.xg .col-4{width:33.31%;}
+.xg .col-3{width:24.97%;}
+.xg .col-2{width:16.63%;}
+.xg .col-1{width:8.29%;}
+
+
+
+
+/* ----------------------------------------------------------------------------------------- 
+   -----------------------------------------------------------------------------------------
+
+	NO MEDIA QUERY SUPPORT *****************************************************************
+
+--------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------- */
+
+.no-mediaqueries .xg.xs .grid{
+	padding:10px 25px;
+}
+
+.no-mediaqueries .xg.sm .grid{
+	padding:10px 50px;
+}
+
+.no-mediaqueries .xg.md .grid{
+	padding:10px 75px;
+}
+
+.no-mediaqueries .xg.lg .grid{
+	padding:10px 100px;
+}		
+
+.no-mediaqueries .xg.xl .grid{
+	padding:10px 125px;
+}
+
+/* Phone */
+
+.no-mediaqueries .xg.phone .col-phone-12{width:100%;}
+.no-mediaqueries .xg.phone .col-phone-11{width:91.6666666666%;}
+.no-mediaqueries .xg.phone .col-phone-10{width:83.3333333333%;}
+.no-mediaqueries .xg.phone .col-phone-9{width:74.9999999999%;}
+.no-mediaqueries .xg.phone .col-phone-8{width:66.6666666666%;}
+.no-mediaqueries .xg.phone .col-phone-7{width:58.3333333333%;}
+.no-mediaqueries .xg.phone .col-phone-6{width:49.9999999999%;}
+.no-mediaqueries .xg.phone .col-phone-5{width:41.6666666666%;}
+.no-mediaqueries .xg.phone .col-phone-4{width:33.31%;}
+.no-mediaqueries .xg.phone .col-phone-3{width:24.97%;}
+.no-mediaqueries .xg.phone .col-phone-2{width:16.63%;}
+.no-mediaqueries .xg.phone .col-phone-1{width:8.29%;}
+
+/* Tablet */
+
+.no-mediaqueries .xg.tablet .col-phone-12{width:100%;}
+.no-mediaqueries .xg.tablet .col-phone-11{width:91.6666666666%;}
+.no-mediaqueries .xg.tablet .col-phone-10{width:83.3333333333%;}
+.no-mediaqueries .xg.tablet .col-phone-9{width:74.9999999999%;}
+.no-mediaqueries .xg.tablet .col-phone-8{width:66.6666666666%;}
+.no-mediaqueries .xg.tablet .col-phone-7{width:58.3333333333%;}
+.no-mediaqueries .xg.tablet .col-phone-6{width:49.9999999999%;}
+.no-mediaqueries .xg.tablet .col-phone-5{width:41.6666666666%;}
+.no-mediaqueries .xg.tablet .col-phone-4{width:33.31%;}
+.no-mediaqueries .xg.tablet .col-phone-3{width:24.97%;}
+.no-mediaqueries .xg.tablet .col-phone-2{width:16.63%;}
+.no-mediaqueries .xg.tablet .col-phone-1{width:8.29%;}
+
+.no-mediaqueries .xg.tablet .col-tablet-12{width:100%;}
+.no-mediaqueries .xg.tablet .col-tablet-11{width:91.6666666666%;}
+.no-mediaqueries .xg.tablet .col-tablet-10{width:83.3333333333%;}
+.no-mediaqueries .xg.tablet .col-tablet-9{width:74.9999999999%;}
+.no-mediaqueries .xg.tablet .col-tablet-8{width:66.6666666666%;}
+.no-mediaqueries .xg.tablet .col-tablet-7{width:58.3333333333%;}
+.no-mediaqueries .xg.tablet .col-tablet-6{width:49.9999999999%;}
+.no-mediaqueries .xg.tablet .col-tablet-5{width:41.6666666666%;}
+.no-mediaqueries .xg.tablet .col-tablet-4{width:33.31%;}
+.no-mediaqueries .xg.tablet .col-tablet-3{width:24.97%;}
+.no-mediaqueries .xg.tablet .col-tablet-2{width:16.63%;}
+.no-mediaqueries .xg.tablet .col-tablet-1{width:8.29%;}
+
+/* Extra Small Desktop */
+
+.no-mediaqueries .xg.xs .col-phone-12{width:100%;}
+.no-mediaqueries .xg.xs .col-phone-11{width:91.6666666666%;}
+.no-mediaqueries .xg.xs .col-phone-10{width:83.3333333333%;}
+.no-mediaqueries .xg.xs .col-phone-9{width:74.9999999999%;}
+.no-mediaqueries .xg.xs .col-phone-8{width:66.6666666666%;}
+.no-mediaqueries .xg.xs .col-phone-7{width:58.3333333333%;}
+.no-mediaqueries .xg.xs .col-phone-6{width:49.9999999999%;}
+.no-mediaqueries .xg.xs .col-phone-5{width:41.6666666666%;}
+.no-mediaqueries .xg.xs .col-phone-4{width:33.31%;}
+.no-mediaqueries .xg.xs .col-phone-3{width:24.97%;}
+.no-mediaqueries .xg.xs .col-phone-2{width:16.63%;}
+.no-mediaqueries .xg.xs .col-phone-1{width:8.29%;}
+
+.no-mediaqueries .xg.xs .col-tablet-12{width:100%;}
+.no-mediaqueries .xg.xs .col-tablet-11{width:91.6666666666%;}
+.no-mediaqueries .xg.xs .col-tablet-10{width:83.3333333333%;}
+.no-mediaqueries .xg.xs .col-tablet-9{width:74.9999999999%;}
+.no-mediaqueries .xg.xs .col-tablet-8{width:66.6666666666%;}
+.no-mediaqueries .xg.xs .col-tablet-7{width:58.3333333333%;}
+.no-mediaqueries .xg.xs .col-tablet-6{width:49.9999999999%;}
+.no-mediaqueries .xg.xs .col-tablet-5{width:41.6666666666%;}
+.no-mediaqueries .xg.xs .col-tablet-4{width:33.31%;}
+.no-mediaqueries .xg.xs .col-tablet-3{width:24.97%;}
+.no-mediaqueries .xg.xs .col-tablet-2{width:16.63%;}
+.no-mediaqueries .xg.xs .col-tablet-1{width:8.29%;}
+
+.no-mediaqueries .xg.xs .col-xs-12{width:100%;}
+.no-mediaqueries .xg.xs .col-xs-11{width:91.6666666666%;}
+.no-mediaqueries .xg.xs .col-xs-10{width:83.3333333333%;}
+.no-mediaqueries .xg.xs .col-xs-9{width:74.9999999999%;}
+.no-mediaqueries .xg.xs .col-xs-8{width:66.6666666666%;}
+.no-mediaqueries .xg.xs .col-xs-7{width:58.3333333333%;}
+.no-mediaqueries .xg.xs .col-xs-6{width:49.9999999999%;}
+.no-mediaqueries .xg.xs .col-xs-5{width:41.6666666666%;}
+.no-mediaqueries .xg.xs .col-xs-4{width:33.31%;}
+.no-mediaqueries .xg.xs .col-xs-3{width:24.97%;}
+.no-mediaqueries .xg.xs .col-xs-2{width:16.63%;}
+.no-mediaqueries .xg.xs .col-xs-1{width:8.29%;}
+
+/* Small Desktop */
+
+.no-mediaqueries .xg.sm .col-phone-12{width:100%;}
+.no-mediaqueries .xg.sm .col-phone-11{width:91.6666666666%;}
+.no-mediaqueries .xg.sm .col-phone-10{width:83.3333333333%;}
+.no-mediaqueries .xg.sm .col-phone-9{width:74.9999999999%;}
+.no-mediaqueries .xg.sm .col-phone-8{width:66.6666666666%;}
+.no-mediaqueries .xg.sm .col-phone-7{width:58.3333333333%;}
+.no-mediaqueries .xg.sm .col-phone-6{width:49.9999999999%;}
+.no-mediaqueries .xg.sm .col-phone-5{width:41.6666666666%;}
+.no-mediaqueries .xg.sm .col-phone-4{width:33.31%;}
+.no-mediaqueries .xg.sm .col-phone-3{width:24.97%;}
+.no-mediaqueries .xg.sm .col-phone-2{width:16.63%;}
+.no-mediaqueries .xg.sm .col-phone-1{width:8.29%;}
+
+.no-mediaqueries .xg.sm .col-tablet-12{width:100%;}
+.no-mediaqueries .xg.sm .col-tablet-11{width:91.6666666666%;}
+.no-mediaqueries .xg.sm .col-tablet-10{width:83.3333333333%;}
+.no-mediaqueries .xg.sm .col-tablet-9{width:74.9999999999%;}
+.no-mediaqueries .xg.sm .col-tablet-8{width:66.6666666666%;}
+.no-mediaqueries .xg.sm .col-tablet-7{width:58.3333333333%;}
+.no-mediaqueries .xg.sm .col-tablet-6{width:49.9999999999%;}
+.no-mediaqueries .xg.sm .col-tablet-5{width:41.6666666666%;}
+.no-mediaqueries .xg.sm .col-tablet-4{width:33.31%;}
+.no-mediaqueries .xg.sm .col-tablet-3{width:24.97%;}
+.no-mediaqueries .xg.sm .col-tablet-2{width:16.63%;}
+.no-mediaqueries .xg.sm .col-tablet-1{width:8.29%;}
+
+.no-mediaqueries .xg.sm .col-xs-12{width:100%;}
+.no-mediaqueries .xg.sm .col-xs-11{width:91.6666666666%;}
+.no-mediaqueries .xg.sm .col-xs-10{width:83.3333333333%;}
+.no-mediaqueries .xg.sm .col-xs-9{width:74.9999999999%;}
+.no-mediaqueries .xg.sm .col-xs-8{width:66.6666666666%;}
+.no-mediaqueries .xg.sm .col-xs-7{width:58.3333333333%;}
+.no-mediaqueries .xg.sm .col-xs-6{width:49.9999999999%;}
+.no-mediaqueries .xg.sm .col-xs-5{width:41.6666666666%;}
+.no-mediaqueries .xg.sm .col-xs-4{width:33.31%;}
+.no-mediaqueries .xg.sm .col-xs-3{width:24.97%;}
+.no-mediaqueries .xg.sm .col-xs-2{width:16.63%;}
+.no-mediaqueries .xg.sm .col-xs-1{width:8.29%;}
+
+.no-mediaqueries .xg.sm .col-sm-12{width:100%;}
+.no-mediaqueries .xg.sm .col-sm-11{width:91.6666666666%;}
+.no-mediaqueries .xg.sm .col-sm-10{width:83.3333333333%;}
+.no-mediaqueries .xg.sm .col-sm-9{width:74.9999999999%;}
+.no-mediaqueries .xg.sm .col-sm-8{width:66.6666666666%;}
+.no-mediaqueries .xg.sm .col-sm-7{width:58.3333333333%;}
+.no-mediaqueries .xg.sm .col-sm-6{width:49.9999999999%;}
+.no-mediaqueries .xg.sm .col-sm-5{width:41.6666666666%;}
+.no-mediaqueries .xg.sm .col-sm-4{width:33.31%;}
+.no-mediaqueries .xg.sm .col-sm-3{width:24.97%;}
+.no-mediaqueries .xg.sm .col-sm-2{width:16.63%;}
+.no-mediaqueries .xg.sm .col-sm-1{width:8.29%;}
+
+/* Medium Desktop */
+
+.no-mediaqueries .xg.md .col-phone-12{width:100%;}
+.no-mediaqueries .xg.md .col-phone-11{width:91.6666666666%;}
+.no-mediaqueries .xg.md .col-phone-10{width:83.3333333333%;}
+.no-mediaqueries .xg.md .col-phone-9{width:74.9999999999%;}
+.no-mediaqueries .xg.md .col-phone-8{width:66.6666666666%;}
+.no-mediaqueries .xg.md .col-phone-7{width:58.3333333333%;}
+.no-mediaqueries .xg.md .col-phone-6{width:49.9999999999%;}
+.no-mediaqueries .xg.md .col-phone-5{width:41.6666666666%;}
+.no-mediaqueries .xg.md .col-phone-4{width:33.31%;}
+.no-mediaqueries .xg.md .col-phone-3{width:24.97%;}
+.no-mediaqueries .xg.md .col-phone-2{width:16.63%;}
+.no-mediaqueries .xg.md .col-phone-1{width:8.29%;}
+
+.no-mediaqueries .xg.md .col-tablet-12{width:100%;}
+.no-mediaqueries .xg.md .col-tablet-11{width:91.6666666666%;}
+.no-mediaqueries .xg.md .col-tablet-10{width:83.3333333333%;}
+.no-mediaqueries .xg.md .col-tablet-9{width:74.9999999999%;}
+.no-mediaqueries .xg.md .col-tablet-8{width:66.6666666666%;}
+.no-mediaqueries .xg.md .col-tablet-7{width:58.3333333333%;}
+.no-mediaqueries .xg.md .col-tablet-6{width:49.9999999999%;}
+.no-mediaqueries .xg.md .col-tablet-5{width:41.6666666666%;}
+.no-mediaqueries .xg.md .col-tablet-4{width:33.31%;}
+.no-mediaqueries .xg.md .col-tablet-3{width:24.97%;}
+.no-mediaqueries .xg.md .col-tablet-2{width:16.63%;}
+.no-mediaqueries .xg.md .col-tablet-1{width:8.29%;}
+
+.no-mediaqueries .xg.md .col-xs-12{width:100%;}
+.no-mediaqueries .xg.md .col-xs-11{width:91.6666666666%;}
+.no-mediaqueries .xg.md .col-xs-10{width:83.3333333333%;}
+.no-mediaqueries .xg.md .col-xs-9{width:74.9999999999%;}
+.no-mediaqueries .xg.md .col-xs-8{width:66.6666666666%;}
+.no-mediaqueries .xg.md .col-xs-7{width:58.3333333333%;}
+.no-mediaqueries .xg.md .col-xs-6{width:49.9999999999%;}
+.no-mediaqueries .xg.md .col-xs-5{width:41.6666666666%;}
+.no-mediaqueries .xg.md .col-xs-4{width:33.31%;}
+.no-mediaqueries .xg.md .col-xs-3{width:24.97%;}
+.no-mediaqueries .xg.md .col-xs-2{width:16.63%;}
+.no-mediaqueries .xg.md .col-xs-1{width:8.29%;}
+
+.no-mediaqueries .xg.md .col-sm-12{width:100%;}
+.no-mediaqueries .xg.md .col-sm-11{width:91.6666666666%;}
+.no-mediaqueries .xg.md .col-sm-10{width:83.3333333333%;}
+.no-mediaqueries .xg.md .col-sm-9{width:74.9999999999%;}
+.no-mediaqueries .xg.md .col-sm-8{width:66.6666666666%;}
+.no-mediaqueries .xg.md .col-sm-7{width:58.3333333333%;}
+.no-mediaqueries .xg.md .col-sm-6{width:49.9999999999%;}
+.no-mediaqueries .xg.md .col-sm-5{width:41.6666666666%;}
+.no-mediaqueries .xg.md .col-sm-4{width:33.31%;}
+.no-mediaqueries .xg.md .col-sm-3{width:24.97%;}
+.no-mediaqueries .xg.md .col-sm-2{width:16.63%;}
+.no-mediaqueries .xg.md .col-sm-1{width:8.29%;}
+
+.no-mediaqueries .xg.md .col-md-12{width:100%;}
+.no-mediaqueries .xg.md .col-md-11{width:91.6666666666%;}
+.no-mediaqueries .xg.md .col-md-10{width:83.3333333333%;}
+.no-mediaqueries .xg.md .col-md-9{width:74.9999999999%;}
+.no-mediaqueries .xg.md .col-md-8{width:66.6666666666%;}
+.no-mediaqueries .xg.md .col-md-7{width:58.3333333333%;}
+.no-mediaqueries .xg.md .col-md-6{width:49.9999999999%;}
+.no-mediaqueries .xg.md .col-md-5{width:41.6666666666%;}
+.no-mediaqueries .xg.md .col-md-4{width:33.31%;}
+.no-mediaqueries .xg.md .col-md-3{width:24.97%;}
+.no-mediaqueries .xg.md .col-md-2{width:16.63%;}
+.no-mediaqueries .xg.md .col-md-1{width:8.29%;}
+
+/* Large Desktop */
+
+.no-mediaqueries .xg.lg .col-phone-12{width:100%;}
+.no-mediaqueries .xg.lg .col-phone-11{width:91.6666666666%;}
+.no-mediaqueries .xg.lg .col-phone-10{width:83.3333333333%;}
+.no-mediaqueries .xg.lg .col-phone-9{width:74.9999999999%;}
+.no-mediaqueries .xg.lg .col-phone-8{width:66.6666666666%;}
+.no-mediaqueries .xg.lg .col-phone-7{width:58.3333333333%;}
+.no-mediaqueries .xg.lg .col-phone-6{width:49.9999999999%;}
+.no-mediaqueries .xg.lg .col-phone-5{width:41.6666666666%;}
+.no-mediaqueries .xg.lg .col-phone-4{width:33.31%;}
+.no-mediaqueries .xg.lg .col-phone-3{width:24.97%;}
+.no-mediaqueries .xg.lg .col-phone-2{width:16.63%;}
+.no-mediaqueries .xg.lg .col-phone-1{width:8.29%;}
+
+.no-mediaqueries .xg.lg .col-tablet-12{width:100%;}
+.no-mediaqueries .xg.lg .col-tablet-11{width:91.6666666666%;}
+.no-mediaqueries .xg.lg .col-tablet-10{width:83.3333333333%;}
+.no-mediaqueries .xg.lg .col-tablet-9{width:74.9999999999%;}
+.no-mediaqueries .xg.lg .col-tablet-8{width:66.6666666666%;}
+.no-mediaqueries .xg.lg .col-tablet-7{width:58.3333333333%;}
+.no-mediaqueries .xg.lg .col-tablet-6{width:49.9999999999%;}
+.no-mediaqueries .xg.lg .col-tablet-5{width:41.6666666666%;}
+.no-mediaqueries .xg.lg .col-tablet-4{width:33.31%;}
+.no-mediaqueries .xg.lg .col-tablet-3{width:24.97%;}
+.no-mediaqueries .xg.lg .col-tablet-2{width:16.63%;}
+.no-mediaqueries .xg.lg .col-tablet-1{width:8.29%;}
+
+.no-mediaqueries .xg.lg .col-xs-12{width:100%;}
+.no-mediaqueries .xg.lg .col-xs-11{width:91.6666666666%;}
+.no-mediaqueries .xg.lg .col-xs-10{width:83.3333333333%;}
+.no-mediaqueries .xg.lg .col-xs-9{width:74.9999999999%;}
+.no-mediaqueries .xg.lg .col-xs-8{width:66.6666666666%;}
+.no-mediaqueries .xg.lg .col-xs-7{width:58.3333333333%;}
+.no-mediaqueries .xg.lg .col-xs-6{width:49.9999999999%;}
+.no-mediaqueries .xg.lg .col-xs-5{width:41.6666666666%;}
+.no-mediaqueries .xg.lg .col-xs-4{width:33.31%;}
+.no-mediaqueries .xg.lg .col-xs-3{width:24.97%;}
+.no-mediaqueries .xg.lg .col-xs-2{width:16.63%;}
+.no-mediaqueries .xg.lg .col-xs-1{width:8.29%;}
+
+.no-mediaqueries .xg.lg .col-sm-12{width:100%;}
+.no-mediaqueries .xg.lg .col-sm-11{width:91.6666666666%;}
+.no-mediaqueries .xg.lg .col-sm-10{width:83.3333333333%;}
+.no-mediaqueries .xg.lg .col-sm-9{width:74.9999999999%;}
+.no-mediaqueries .xg.lg .col-sm-8{width:66.6666666666%;}
+.no-mediaqueries .xg.lg .col-sm-7{width:58.3333333333%;}
+.no-mediaqueries .xg.lg .col-sm-6{width:49.9999999999%;}
+.no-mediaqueries .xg.lg .col-sm-5{width:41.6666666666%;}
+.no-mediaqueries .xg.lg .col-sm-4{width:33.31%;}
+.no-mediaqueries .xg.lg .col-sm-3{width:24.97%;}
+.no-mediaqueries .xg.lg .col-sm-2{width:16.63%;}
+.no-mediaqueries .xg.lg .col-sm-1{width:8.29%;}
+
+.no-mediaqueries .xg.lg .col-md-12{width:100%;}
+.no-mediaqueries .xg.lg .col-md-11{width:91.6666666666%;}
+.no-mediaqueries .xg.lg .col-md-10{width:83.3333333333%;}
+.no-mediaqueries .xg.lg .col-md-9{width:74.9999999999%;}
+.no-mediaqueries .xg.lg .col-md-8{width:66.6666666666%;}
+.no-mediaqueries .xg.lg .col-md-7{width:58.3333333333%;}
+.no-mediaqueries .xg.lg .col-md-6{width:49.9999999999%;}
+.no-mediaqueries .xg.lg .col-md-5{width:41.6666666666%;}
+.no-mediaqueries .xg.lg .col-md-4{width:33.31%;}
+.no-mediaqueries .xg.lg .col-md-3{width:24.97%;}
+.no-mediaqueries .xg.lg .col-md-2{width:16.63%;}
+.no-mediaqueries .xg.lg .col-md-1{width:8.29%;}
+
+.no-mediaqueries .xg.lg .col-lg-12{width:100%;}
+.no-mediaqueries .xg.lg .col-lg-11{width:91.6666666666%;}
+.no-mediaqueries .xg.lg .col-lg-10{width:83.3333333333%;}
+.no-mediaqueries .xg.lg .col-lg-9{width:74.9999999999%;}
+.no-mediaqueries .xg.lg .col-lg-8{width:66.6666666666%;}
+.no-mediaqueries .xg.lg .col-lg-7{width:58.3333333333%;}
+.no-mediaqueries .xg.lg .col-lg-6{width:49.9999999999%;}
+.no-mediaqueries .xg.lg .col-lg-5{width:41.6666666666%;}
+.no-mediaqueries .xg.lg .col-lg-4{width:33.31%;}
+.no-mediaqueries .xg.lg .col-lg-3{width:24.97%;}
+.no-mediaqueries .xg.lg .col-lg-2{width:16.63%;}
+.no-mediaqueries .xg.lg .col-lg-1{width:8.29%;}
+
+/* Extra Large Desktop */
+
+.no-mediaqueries .xg.xl .col-phone-12{width:100%;}
+.no-mediaqueries .xg.xl .col-phone-11{width:91.6666666666%;}
+.no-mediaqueries .xg.xl .col-phone-10{width:83.3333333333%;}
+.no-mediaqueries .xg.xl .col-phone-9{width:74.9999999999%;}
+.no-mediaqueries .xg.xl .col-phone-8{width:66.6666666666%;}
+.no-mediaqueries .xg.xl .col-phone-7{width:58.3333333333%;}
+.no-mediaqueries .xg.xl .col-phone-6{width:49.9999999999%;}
+.no-mediaqueries .xg.xl .col-phone-5{width:41.6666666666%;}
+.no-mediaqueries .xg.xl .col-phone-4{width:33.31%;}
+.no-mediaqueries .xg.xl .col-phone-3{width:24.97%;}
+.no-mediaqueries .xg.xl .col-phone-2{width:16.63%;}
+.no-mediaqueries .xg.xl .col-phone-1{width:8.29%;}
+
+.no-mediaqueries .xg.xl .col-tablet-12{width:100%;}
+.no-mediaqueries .xg.xl .col-tablet-11{width:91.6666666666%;}
+.no-mediaqueries .xg.xl .col-tablet-10{width:83.3333333333%;}
+.no-mediaqueries .xg.xl .col-tablet-9{width:74.9999999999%;}
+.no-mediaqueries .xg.xl .col-tablet-8{width:66.6666666666%;}
+.no-mediaqueries .xg.xl .col-tablet-7{width:58.3333333333%;}
+.no-mediaqueries .xg.xl .col-tablet-6{width:49.9999999999%;}
+.no-mediaqueries .xg.xl .col-tablet-5{width:41.6666666666%;}
+.no-mediaqueries .xg.xl .col-tablet-4{width:33.31%;}
+.no-mediaqueries .xg.xl .col-tablet-3{width:24.97%;}
+.no-mediaqueries .xg.xl .col-tablet-2{width:16.63%;}
+.no-mediaqueries .xg.xl .col-tablet-1{width:8.29%;}
+
+.no-mediaqueries .xg.xl .col-xs-12{width:100%;}
+.no-mediaqueries .xg.xl .col-xs-11{width:91.6666666666%;}
+.no-mediaqueries .xg.xl .col-xs-10{width:83.3333333333%;}
+.no-mediaqueries .xg.xl .col-xs-9{width:74.9999999999%;}
+.no-mediaqueries .xg.xl .col-xs-8{width:66.6666666666%;}
+.no-mediaqueries .xg.xl .col-xs-7{width:58.3333333333%;}
+.no-mediaqueries .xg.xl .col-xs-6{width:49.9999999999%;}
+.no-mediaqueries .xg.xl .col-xs-5{width:41.6666666666%;}
+.no-mediaqueries .xg.xl .col-xs-4{width:33.31%;}
+.no-mediaqueries .xg.xl .col-xs-3{width:24.97%;}
+.no-mediaqueries .xg.xl .col-xs-2{width:16.63%;}
+.no-mediaqueries .xg.xl .col-xs-1{width:8.29%;}
+
+.no-mediaqueries .xg.xl .col-sm-12{width:100%;}
+.no-mediaqueries .xg.xl .col-sm-11{width:91.6666666666%;}
+.no-mediaqueries .xg.xl .col-sm-10{width:83.3333333333%;}
+.no-mediaqueries .xg.xl .col-sm-9{width:74.9999999999%;}
+.no-mediaqueries .xg.xl .col-sm-8{width:66.6666666666%;}
+.no-mediaqueries .xg.xl .col-sm-7{width:58.3333333333%;}
+.no-mediaqueries .xg.xl .col-sm-6{width:49.9999999999%;}
+.no-mediaqueries .xg.xl .col-sm-5{width:41.6666666666%;}
+.no-mediaqueries .xg.xl .col-sm-4{width:33.31%;}
+.no-mediaqueries .xg.xl .col-sm-3{width:24.97%;}
+.no-mediaqueries .xg.xl .col-sm-2{width:16.63%;}
+.no-mediaqueries .xg.xl .col-sm-1{width:8.29%;}
+
+.no-mediaqueries .xg.xl .col-md-12{width:100%;}
+.no-mediaqueries .xg.xl .col-md-11{width:91.6666666666%;}
+.no-mediaqueries .xg.xl .col-md-10{width:83.3333333333%;}
+.no-mediaqueries .xg.xl .col-md-9{width:74.9999999999%;}
+.no-mediaqueries .xg.xl .col-md-8{width:66.6666666666%;}
+.no-mediaqueries .xg.xl .col-md-7{width:58.3333333333%;}
+.no-mediaqueries .xg.xl .col-md-6{width:49.9999999999%;}
+.no-mediaqueries .xg.xl .col-md-5{width:41.6666666666%;}
+.no-mediaqueries .xg.xl .col-md-4{width:33.31%;}
+.no-mediaqueries .xg.xl .col-md-3{width:24.97%;}
+.no-mediaqueries .xg.xl .col-md-2{width:16.63%;}
+.no-mediaqueries .xg.xl .col-md-1{width:8.29%;}
+
+.no-mediaqueries .xg.xl .col-lg-12{width:100%;}
+.no-mediaqueries .xg.xl .col-lg-11{width:91.6666666666%;}
+.no-mediaqueries .xg.xl .col-lg-10{width:83.3333333333%;}
+.no-mediaqueries .xg.xl .col-lg-9{width:74.9999999999%;}
+.no-mediaqueries .xg.xl .col-lg-8{width:66.6666666666%;}
+.no-mediaqueries .xg.xl .col-lg-7{width:58.3333333333%;}
+.no-mediaqueries .xg.xl .col-lg-6{width:49.9999999999%;}
+.no-mediaqueries .xg.xl .col-lg-5{width:41.6666666666%;}
+.no-mediaqueries .xg.xl .col-lg-4{width:33.31%;}
+.no-mediaqueries .xg.xl .col-lg-3{width:24.97%;}
+.no-mediaqueries .xg.xl .col-lg-2{width:16.63%;}
+.no-mediaqueries .xg.xl .col-lg-1{width:8.29%;}
+
+.no-mediaqueries .xg.xl .col-xl-12{width:100%;}
+.no-mediaqueries .xg.xl .col-xl-11{width:91.6666666666%;}
+.no-mediaqueries .xg.xl .col-xl-10{width:83.3333333333%;}
+.no-mediaqueries .xg.xl .col-xl-9{width:74.9999999999%;}
+.no-mediaqueries .xg.xl .col-xl-8{width:66.6666666666%;}
+.no-mediaqueries .xg.xl .col-xl-7{width:58.3333333333%;}
+.no-mediaqueries .xg.xl .col-xl-6{width:49.9999999999%;}
+.no-mediaqueries .xg.xl .col-xl-5{width:41.6666666666%;}
+.no-mediaqueries .xg.xl .col-xl-4{width:33.31%;}
+.no-mediaqueries .xg.xl .col-xl-3{width:24.97%;}
+.no-mediaqueries .xg.xl .col-xl-2{width:16.63%;}
+.no-mediaqueries .xg.xl .col-xl-1{width:8.29%;}
+
+
+
+
+
+/* ----------------------------------------------------------------------------------------- 
+   -----------------------------------------------------------------------------------------
+
+	START MEDIA QUERIES ********************************************************************
+
+--------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------- */
+
+/*
+	<<< --------------------------------------------->>>
+	
+	Phone View
+	
+	<<< --------------------------------------------->>>
+*/
+.xg .desktop, .xg .xs-desktop, 
+.xg .sm-desktop, .xg .md-desktop, 
+.xg .lg-desktop, .xg .xl-desktop,
+.xg .tablet, 
+.xg .not-phone, .xg .block.not-phone,
+.xg .over-phone, .xg .block.over-phone, 
+.xg .over-tablet, .xg .block.over-tablet,
+.xg .over-desktop, .xg .block.over-desktop,
+.xg .over-xs-desktop, .xg .block.over-xs-desktop,
+.xg .over-sm-desktop, .xg .block.over-sm-desktop,
+.xg .over-md-desktop, .xg .block.over-md-desktop,
+.xg .over-lg-desktop, .xg .block.over-lg-desktop{
+	display:none !important;
+}
+
+.xg .phone,
+.xg .under-tablet, .xg .under-desktop,
+.xg .under-xs-desktop, .xg .under-sm-desktop,
+.xg .under-md-desktop, .xg .under-lg-desktop,
+.xg .under-xl-desktop{
+	display:inline-block !important;
+}
+
+.xg .block.phone,
+.xg .block.under-tablet, .xg .block.under-desktop,
+.xg .block.under-xs-desktop, .xg .block.under-sm-desktop,
+.xg .block.under-md-desktop, .xg .block.under-lg-desktop,
+.xg .block.under-xl-desktop{
+	display:block !important;
+}
+.xg th.phone, .xg td.phone,
+.xg th.under-tablet, .xg td.under-tablet,
+.xg th.under-xs-desktop, .xg td.under-xs-desktop,
+.xg th.under-sm-desktop, .xg td.under-sm-desktop,
+.xg th.under-md-desktop, .xg td.under-md-desktop,
+.xg th.under-lg-desktop, .xg td.under-lg-desktop,
+.xg th.under-xl-desktop, .xg td.under-xl-desktop{
+	display:table-cell !important;
+}
+
+.xg table.phone,
+.xg table.under-tablet,
+.xg table.under-xs-desktop,
+.xg table.under-sm-desktop,
+.xg table.under-md-desktop,
+.xg table.under-lg-desktop,
+.xg table.under-xl-desktop{
+	display:table !important;
+}
+
+.xg th.tablet, .xg td.tablet, 
+.xg th.desktop, .xg td.desktop,  
+.xg th.xs-desktop, .xg td.xs-desktop,
+.xg th.sm-desktop, .xg td.sm-desktop, 
+.xg th.md-desktop, .xg td.md-desktop,
+.xg th.lg-desktop, .xg td.lg-desktop, 
+.xg th.xl-desktop, .xg td.xl-desktop,
+.xg th.not-phone, .xg td.not-phone,
+.xg th.over-phone, .xg td.over-phone, 
+.xg th.over-tablet, .xg td.over-tablet, 
+.xg th.over-desktop, .xg td.over-desktop,
+.xg th.over-xs-desktop, .xg th.over-xs-desktop, 
+.xg th.over-sm-desktop, .xg td.over-sm-desktop,
+.xg th.over-md-desktop, .xg td.over-md-desktop,
+.xg th.over-lg-desktop, .xg td.over-lg-desktop,
+
+.xg table.tablet, .xg table.desktop,  
+.xg table.xs-desktop, .xg table.sm-desktop, 
+.xg table.md-desktop, .xg table.lg-desktop, 
+.xg table.xl-desktop, .xg table.not-phone, .xg table.over-phone, 
+.xg table.over-tablet, .xg table.over-desktop,
+.xg table.over-xs-desktop, .xg table.over-sm-desktop,
+.xg table.over-md-desktop, .xg table.over-lg-desktop{
+	display:none !important;
+}
+
+/* Grids */
+.xg .col-phone-12{width:100%;}
+.xg .col-phone-11{width:91.6666666666%;}
+.xg .col-phone-10{width:83.3333333333%;}
+.xg .col-phone-9{width:74.9999999999%;}
+.xg .col-phone-8{width:66.6666666666%;}
+.xg .col-phone-7{width:58.3333333333%;}
+.xg .col-phone-6{width:49.9999999999%;}
+.xg .col-phone-5{width:41.6666666666%;}
+.xg .col-phone-4{width:33.31%;}
+.xg .col-phone-3{width:24.97%;}
+.xg .col-phone-2{width:16.63%;}
+.xg .col-phone-1{width:8.29%;}
+
+/*
+	<<< --------------------------------------------->>>
+	
+	Tablet View
+	
+	Media queries - This media query defines a screen width
+	of at least 640px.
+	
+	<<< --------------------------------------------->>>
+*/
+@media(min-width:40em){
+	.xg .phone, .xg .block.phone, .xg th.phone, .xg td.phone{
+		display:none !important;
+	}
+	.xg .not-phone, .xg .tablet, .xg .over-phone{
+		display:inline-block !important;
+	}
+	.xg .block.not-phone, .xg .block.tablet, .xg .block.over-phone{
+		display:block !important;
+	}
+	.xg .not-tablet, .xg .under-tablet, .xg .block.under-tablet{
+	 	display:none !important;
+	}
+	
+	.xg th.tablet, .xg td.tablet,
+	.xg th.over-phone, .xg td.over-phone,
+	.xg th.under-xs-desktop, .xg td.under-xs-desktop,
+	.xg th.under-sm-desktop, .xg td.under-sm-desktop,
+	.xg th.under-md-desktop, .xg td.under-md-desktop,
+	.xg th.under-lg-desktop, .xg td.under-lg-desktop,
+	.xg th.under-xl-desktop, .xg td.under-xl-desktop{
+		display:table-cell !important;
+	}
+	
+	.xg table.tablet,
+	.xg table.over-phone, .xg table.under-xs-desktop,
+	.xg table.under-sm-desktop, .xg table.under-md-desktop,
+	.xg table.under-lg-desktop, .xg table.under-xl-desktop{
+		display:table !important;
+	}
+	 
+	.xg th.desktop, .xg td.desktop,  
+	.xg th.xs-desktop, .xg td.xs-desktop,
+	.xg th.sm-desktop, .xg td.sm-desktop, 
+	.xg th.md-desktop, .xg td.md-desktop,
+	.xg th.lg-desktop, .xg td.lg-desktop, 
+	.xg th.xl-desktop, .xg td.xl-desktop,
+	.xg th.not-tablet, .xg td.not-tablet, 
+	.xg th.over-tablet, .xg td.over-tablet, 
+	.xg th.over-desktop, .xg td.over-desktop,
+	.xg th.over-xs-desktop, .xg th.over-xs-desktop, 
+	.xg th.over-sm-desktop, .xg td.over-sm-desktop,
+	.xg th.over-md-desktop, .xg td.over-md-desktop,
+	.xg th.over-lg-desktop, .xg td.over-lg-desktop,
+	.xg th.under-tablet, .xg td.under-tablet,
+	
+	.xg table.desktop, .xg table.xs-desktop,
+	.xg table.sm-desktop, .xg table.md-desktop,
+	.xg table.lg-desktop, .xg table.xl-desktop,
+	.xg table.not-tablet, .xg table.over-tablet,
+	.xg table.over-desktop, .xg table.over-xs-desktop, 
+	.xg table.over-sm-desktop, .xg table.over-md-desktop,
+	.xg table.over-lg-desktop, .xg table.under-tablet{
+		display:none !important;
+	}
+	
+	/* Grids */
+	.xg .col-phone-12{width:100%;}
+	.xg .col-phone-11{width:91.6666666666%;}
+	.xg .col-phone-10{width:83.3333333333%;}
+	.xg .col-phone-9{width:74.9999999999%;}
+	.xg .col-phone-8{width:66.6666666666%;}
+	.xg .col-phone-7{width:58.3333333333%;}
+	.xg .col-phone-6{width:49.9999999999%;}
+	.xg .col-phone-5{width:41.6666666666%;}
+	.xg .col-phone-4{width:33.31%;}
+	.xg .col-phone-3{width:24.97%;}
+	.xg .col-phone-2{width:16.63%;}
+	.xg .col-phone-1{width:8.29%;}
+
+	.xg .col-tablet-12{width:100%;}
+	.xg .col-tablet-11{width:91.6666666666%;}
+	.xg .col-tablet-10{width:83.3333333333%;}
+	.xg .col-tablet-9{width:74.9999999999%;}
+	.xg .col-tablet-8{width:66.6666666666%;}
+	.xg .col-tablet-7{width:58.3333333333%;}
+	.xg .col-tablet-6{width:49.9999999999%;}
+	.xg .col-tablet-5{width:41.6666666666%;}
+	.xg .col-tablet-4{width:33.31%;}
+	.xg .col-tablet-3{width:24.97%;}
+	.xg .col-tablet-2{width:16.63%;}
+	.xg .col-tablet-1{width:8.29%;}
+}
+
+/*
+	<<< --------------------------------------------->>>
+	
+	Extra Small Desktop
+	
+	Desktop extends Extra Small Desktop through Extra Large Desktop
+	
+	Media queries - This media query defines a screen width
+	of at least 768px.
+	
+	<<< --------------------------------------------->>>
+*/
+@media(min-width:48em){
+	.xg .tablet, .xg .block.tablet{
+		display:none !important;
+	}
+	
+	.xg .desktop, .xg .xs-desktop,
+	.xg .not-phone, .xg .not-tablet,
+	.xg .over-tablet{
+		display:inline-block !important;
+	}
+	
+	.xg .block.desktop, .xg .block.xs-desktop,
+	.xg .block.not-phone, .xg .block.not-tablet,
+	.xg .block.over-tablet{
+		display:block !important;
+	}
+	
+	.xg .not-xs-desktop, 
+	.xg .under-tablet, .xg .block.under-tablet, 
+	.xg .under-xs-desktop, .xg .block.under-xs-desktop{
+		display:none !important;
+	}
+	
+	.xg th.desktop, .xg td.desktop,
+	.xg th.xs-desktop, .xg td.xs-desktop,
+	.xg th.not-phone, .xg td.not-phone,
+	.xg th.not-tablet, .xg td.not-tablet,
+	.xg th.over-tablet, .xg td.over-tablet,
+	.xg th.under-sm-desktop, .xg td.under-sm-desktop,
+	.xg th.under-md-desktop, .xg td.under-md-desktop,
+	.xg th.under-lg-desktop, .xg td.under-lg-desktop,
+	.xg th.under-xl-desktop, .xg td.under-xl-desktop{
+		display:table-cell !important;
+	}
+	
+	.xg table.desktop,
+	.xg table.xs-desktop, 
+	.xg table.not-phone, 
+	.xg table.not-tablet, 
+	.xg table.over-tablet, 
+	.xg table.under-sm-desktop, 
+	.xg table.under-md-desktop, 
+	.xg table.under-lg-desktop, 
+	.xg table.under-xl-desktop{
+		display:table !important;
+	}
+	
+	.xg th.not-xs-desktop, .xg td.not-xs-desktop,
+	.xg th.under-tablet, .xg td.under-tablet,
+	.xg th.under-xs-desktop, .xg td.under-xs-desktop,
+	.xg table.not-xs-desktop,
+	.xg table.under-tablet,
+	.xg table.under-xs-desktop{
+		display:none !important;
+	}
+	
+	/* Grids */
+	
+	.xg .grid{
+		padding:10px 25px;
+	}
+	
+	.xg .col-phone-12{width:100%;}
+	.xg .col-phone-11{width:91.6666666666%;}
+	.xg .col-phone-10{width:83.3333333333%;}
+	.xg .col-phone-9{width:74.9999999999%;}
+	.xg .col-phone-8{width:66.6666666666%;}
+	.xg .col-phone-7{width:58.3333333333%;}
+	.xg .col-phone-6{width:49.9999999999%;}
+	.xg .col-phone-5{width:41.6666666666%;}
+	.xg .col-phone-4{width:33.31%;}
+	.xg .col-phone-3{width:24.97%;}
+	.xg .col-phone-2{width:16.63%;}
+	.xg .col-phone-1{width:8.29%;}
+
+	.xg .col-tablet-12{width:100%;}
+	.xg .col-tablet-11{width:91.6666666666%;}
+	.xg .col-tablet-10{width:83.3333333333%;}
+	.xg .col-tablet-9{width:74.9999999999%;}
+	.xg .col-tablet-8{width:66.6666666666%;}
+	.xg .col-tablet-7{width:58.3333333333%;}
+	.xg .col-tablet-6{width:49.9999999999%;}
+	.xg .col-tablet-5{width:41.6666666666%;}
+	.xg .col-tablet-4{width:33.31%;}
+	.xg .col-tablet-3{width:24.97%;}
+	.xg .col-tablet-2{width:16.63%;}
+	.xg .col-tablet-1{width:8.29%;}
+
+	.xg .col-xs-12{width:100%;}
+	.xg .col-xs-11{width:91.6666666666%;}
+	.xg .col-xs-10{width:83.3333333333%;}
+	.xg .col-xs-9{width:74.9999999999%;}
+	.xg .col-xs-8{width:66.6666666666%;}
+	.xg .col-xs-7{width:58.3333333333%;}
+	.xg .col-xs-6{width:49.9999999999%;}
+	.xg .col-xs-5{width:41.6666666666%;}
+	.xg .col-xs-4{width:33.31%;}
+	.xg .col-xs-3{width:24.97%;}
+	.xg .col-xs-2{width:16.63%;}
+	.xg .col-xs-1{width:8.29%;}
+}
+
+/*
+	<<< --------------------------------------------->>>
+	
+	Small Desktop
+	
+	Media queries - This media query defines a screen width
+	of at least 1024px.
+	
+	<<< --------------------------------------------->>>
+*/
+@media(min-width:64em){
+	.xg .xs-desktop{
+		display:none !important;
+	}
+	.xg .sm-desktop, .xg .not-xs-desktop,
+	.xg .not-phone, .xg .not-tablet,
+	.xg .over-xs-desktop{
+		display:inline-block !important;
+	}
+	
+	.xg .block.sm-desktop, .xg .block.not-xs-desktop,
+	.xg .block.not-phone, .xg .block.not-tablet,
+	.xg .block.over-xs-desktop{
+		display:block !important;
+	}
+	
+	.xg .not-sm-desktop, 
+	.xg .under-tablet, .xg .block.under-tablet,
+	.xg .under-xs-desktop, .xg .block.under-xs-desktop,
+	.xg .under-sm-desktop, .xg .block.under-sm-desktop{
+		display:none !important;
+	}
+	
+	.xg th.sm-desktop, .xg td.sm-desktop,
+	.xg th.not-xs-desktop, .xg td.not-xs-desktop,
+	.xg th.not-phone, .xg td.not-phone,
+	.xg th.not-tablet, .xg td.not-tablet,
+	.xg th.over-xs-desktop, .xg td.over-xs-desktop,
+	.xg th.under-md-desktop, .xg td.under-md-desktop,
+	.xg th.under-lg-desktop, .xg td.under-lg-desktop,
+	.xg th.under-xl-desktop, .xg td.under-xl-desktop{
+		display:table-cell !important;
+	}
+	
+	.xg table.sm-desktop,
+	.xg table.not-xs-desktop, 
+	.xg table.not-phone, 
+	.xg table.not-tablet, 
+	.xg table.over-xs-desktop, 
+	.xg table.under-md-desktop, 
+	.xg table.under-lg-desktop, 
+	.xg table.under-xl-desktop{
+		display:table !important;
+	}
+	
+	.xg th.not-sm-desktop, .xg td.not-sm-desktop,
+	.xg th.under-tablet, .xg td.under-tablet,	
+	.xg th.under-xs-desktop, .xg td.under-xs-desktop,
+	.xg th.under-sm-desktop, .xg td.under-sm-desktop,
+	
+	.xg table.not-sm-desktop,
+	.xg table.under-tablet, 	
+	.xg table.under-xs-desktop, 
+	.xg table.under-sm-desktop{
+		display:none !important;
+	}
+	
+	/* Grids */
+	
+	.xg .grid{
+		padding:10px 50px;
+	}
+	
+	.xg .col-phone-12{width:100%;}
+	.xg .col-phone-11{width:91.6666666666%;}
+	.xg .col-phone-10{width:83.3333333333%;}
+	.xg .col-phone-9{width:74.9999999999%;}
+	.xg .col-phone-8{width:66.6666666666%;}
+	.xg .col-phone-7{width:58.3333333333%;}
+	.xg .col-phone-6{width:49.9999999999%;}
+	.xg .col-phone-5{width:41.6666666666%;}
+	.xg .col-phone-4{width:33.31%;}
+	.xg .col-phone-3{width:24.97%;}
+	.xg .col-phone-2{width:16.63%;}
+	.xg .col-phone-1{width:8.29%;}
+
+	.xg .col-tablet-12{width:100%;}
+	.xg .col-tablet-11{width:91.6666666666%;}
+	.xg .col-tablet-10{width:83.3333333333%;}
+	.xg .col-tablet-9{width:74.9999999999%;}
+	.xg .col-tablet-8{width:66.6666666666%;}
+	.xg .col-tablet-7{width:58.3333333333%;}
+	.xg .col-tablet-6{width:49.9999999999%;}
+	.xg .col-tablet-5{width:41.6666666666%;}
+	.xg .col-tablet-4{width:33.31%;}
+	.xg .col-tablet-3{width:24.97%;}
+	.xg .col-tablet-2{width:16.63%;}
+	.xg .col-tablet-1{width:8.29%;}
+
+	.xg .col-xs-12{width:100%;}
+	.xg .col-xs-11{width:91.6666666666%;}
+	.xg .col-xs-10{width:83.3333333333%;}
+	.xg .col-xs-9{width:74.9999999999%;}
+	.xg .col-xs-8{width:66.6666666666%;}
+	.xg .col-xs-7{width:58.3333333333%;}
+	.xg .col-xs-6{width:49.9999999999%;}
+	.xg .col-xs-5{width:41.6666666666%;}
+	.xg .col-xs-4{width:33.31%;}
+	.xg .col-xs-3{width:24.97%;}
+	.xg .col-xs-2{width:16.63%;}
+	.xg .col-xs-1{width:8.29%;}
+
+	.xg .col-sm-12{width:100%;}
+	.xg .col-sm-11{width:91.6666666666%;}
+	.xg .col-sm-10{width:83.3333333333%;}
+	.xg .col-sm-9{width:74.9999999999%;}
+	.xg .col-sm-8{width:66.6666666666%;}
+	.xg .col-sm-7{width:58.3333333333%;}
+	.xg .col-sm-6{width:49.9999999999%;}
+	.xg .col-sm-5{width:41.6666666666%;}
+	.xg .col-sm-4{width:33.31%;}
+	.xg .col-sm-3{width:24.97%;}
+	.xg .col-sm-2{width:16.63%;}
+	.xg .col-sm-1{width:8.29%;}
+}
+
+/*
+	<<< --------------------------------------------->>>
+	
+	Medium Desktop
+	
+	Media queries - This media query defines a screen width
+	of at least 1280px.
+	
+	<<< --------------------------------------------->>>
+*/
+@media(min-width:80em){
+	.xg .sm-desktop{
+		display:none !important;
+	}
+	
+	.xg .md-desktop, .xg .not-xs-desktop,
+	.xg .not-sm-desktop, .xg .not-phone, 
+	.xg .not-tablet, .xg .over-sm-desktop{
+		display:inline-block !important;
+	}
+
+	.xg .block.md-desktop, .xg .block.not-xs-desktop,
+	.xg .block.not-sm-desktop, .xg .block.not-phone, 
+	.xg .block.not-tablet, .xg .block.over-sm-desktop{
+		display:block !important;
+	}
+	
+	.xg .not-md-desktop, 
+	.xg .under-tablet, .xg .block.under-tablet, 
+	.xg .under-xs-desktop, .xg .block.under-xs-desktop,
+	.xg .under-sm-desktop, .xg .block.under-sm-desktop,
+	.xg .under-md-desktop, .xg .block.under-md-desktop{
+		display:none !important;
+	}
+	
+	.xg th.md-desktop, .xg td.md-desktop,
+	.xg th.not-xs-desktop, .xg td.not-xs-desktop,
+	.xg th.not-sm-desktop, .xg td.not-sm-desktop,
+	.xg th.not-phone, .xg td.not-phone,
+	.xg th.not-tablet, .xg td.not-tablet,
+	.xg th.over-sm-desktop, .xg td.over-sm-desktop,
+	.xg th.under-lg-desktop, .xg td.under-lg-desktop,
+	.xg th.under-xl-desktop, .xg td.under-xl-desktop{
+		display:table-cell !important;
+	}
+	
+	.xg table.md-desktop, 
+	.xg table.not-xs-desktop, 
+	.xg table.not-sm-desktop, 
+	.xg table.not-phone, 
+	.xg table.not-tablet, 
+	.xg table.over-sm-desktop, 
+	.xg table.under-lg-desktop, 
+	.xg table.under-xl-desktop{
+		display:table !important;
+	}
+	
+	.xg th.not-md-desktop, .xg td.not-md-desktop,
+	.xg th.under-tablet, .xg td.under-tablet,	
+	.xg th.under-xs-desktop, .xg td.under-xs-desktop,
+	.xg th.under-sm-desktop, .xg td.under-sm-desktop,
+	.xg th.under-md-desktop, .xg td.under-md-desktop,
+	
+	.xg table.not-md-desktop, 
+	.xg table.under-tablet, 	
+	.xg table.under-xs-desktop, 
+	.xg table.under-sm-desktop, 
+	.xg table.under-md-desktop{
+		display:none !important;
+	}
+	
+	/* Grids */
+	
+	.xg .grid{
+		padding:10px 75px;
+	}
+	
+	.xg .col-phone-12{width:100%;}
+	.xg .col-phone-11{width:91.6666666666%;}
+	.xg .col-phone-10{width:83.3333333333%;}
+	.xg .col-phone-9{width:74.9999999999%;}
+	.xg .col-phone-8{width:66.6666666666%;}
+	.xg .col-phone-7{width:58.3333333333%;}
+	.xg .col-phone-6{width:49.9999999999%;}
+	.xg .col-phone-5{width:41.6666666666%;}
+	.xg .col-phone-4{width:33.31%;}
+	.xg .col-phone-3{width:24.97%;}
+	.xg .col-phone-2{width:16.63%;}
+	.xg .col-phone-1{width:8.29%;}
+
+	.xg .col-tablet-12{width:100%;}
+	.xg .col-tablet-11{width:91.6666666666%;}
+	.xg .col-tablet-10{width:83.3333333333%;}
+	.xg .col-tablet-9{width:74.9999999999%;}
+	.xg .col-tablet-8{width:66.6666666666%;}
+	.xg .col-tablet-7{width:58.3333333333%;}
+	.xg .col-tablet-6{width:49.9999999999%;}
+	.xg .col-tablet-5{width:41.6666666666%;}
+	.xg .col-tablet-4{width:33.31%;}
+	.xg .col-tablet-3{width:24.97%;}
+	.xg .col-tablet-2{width:16.63%;}
+	.xg .col-tablet-1{width:8.29%;}
+
+	.xg .col-xs-12{width:100%;}
+	.xg .col-xs-11{width:91.6666666666%;}
+	.xg .col-xs-10{width:83.3333333333%;}
+	.xg .col-xs-9{width:74.9999999999%;}
+	.xg .col-xs-8{width:66.6666666666%;}
+	.xg .col-xs-7{width:58.3333333333%;}
+	.xg .col-xs-6{width:49.9999999999%;}
+	.xg .col-xs-5{width:41.6666666666%;}
+	.xg .col-xs-4{width:33.31%;}
+	.xg .col-xs-3{width:24.97%;}
+	.xg .col-xs-2{width:16.63%;}
+	.xg .col-xs-1{width:8.29%;}
+
+	.xg .col-sm-12{width:100%;}
+	.xg .col-sm-11{width:91.6666666666%;}
+	.xg .col-sm-10{width:83.3333333333%;}
+	.xg .col-sm-9{width:74.9999999999%;}
+	.xg .col-sm-8{width:66.6666666666%;}
+	.xg .col-sm-7{width:58.3333333333%;}
+	.xg .col-sm-6{width:49.9999999999%;}
+	.xg .col-sm-5{width:41.6666666666%;}
+	.xg .col-sm-4{width:33.31%;}
+	.xg .col-sm-3{width:24.97%;}
+	.xg .col-sm-2{width:16.63%;}
+	.xg .col-sm-1{width:8.29%;}
+
+	.xg .col-md-12{width:100%;}
+	.xg .col-md-11{width:91.6666666666%;}
+	.xg .col-md-10{width:83.3333333333%;}
+	.xg .col-md-9{width:74.9999999999%;}
+	.xg .col-md-8{width:66.6666666666%;}
+	.xg .col-md-7{width:58.3333333333%;}
+	.xg .col-md-6{width:49.9999999999%;}
+	.xg .col-md-5{width:41.6666666666%;}
+	.xg .col-md-4{width:33.31%;}
+	.xg .col-md-3{width:24.97%;}
+	.xg .col-md-2{width:16.63%;}
+	.xg .col-md-1{width:8.29%;}
+}
+
+/*
+	<<< --------------------------------------------->>>
+	
+	Large Desktop
+	
+	Media queries - This media query defines a screen width
+	of at least 1366px.
+	
+	<<< --------------------------------------------->>>
+*/
+@media(min-width:85.375em){
+	.xg .md-desktop{
+		display:none !important;
+	}
+	
+	.xg .lg-desktop, .xg .not-xs-desktop,
+	.xg .not-sm-desktop, .xg .not-md-desktop,
+	.xg .not-phone, .xg .not-tablet, .xg .over-md-desktop{
+		display:inline-block !important;
+	}
+	
+	.xg .block.lg-desktop, .xg .block.not-xs-desktop,
+	.xg .block.not-sm-desktop, .xg .block.not-md-desktop,
+	.xg .block.not-phone, .xg .block.not-tablet, .xg .block.over-md-desktop{
+		display:block !important;
+	}
+	
+	.xg .not-lg-desktop, 
+	.xg .under-tablet, .xg .block.under-tablet,
+	.xg .under-xs-desktop, .xg .block.under-xs-desktop,
+	.xg .under-sm-desktop, .xg .block.under-sm-desktop,
+	.xg .under-md-desktop, .xg .block.under-md-desktop,
+	.xg .under-lg-desktop, .xg .block.under-lg-desktop{
+		display:none !important;
+	}
+	
+	.xg th.lg-desktop, .xg td.lg-desktop,
+	.xg th.not-xs-desktop, .xg td.not-xs-desktop,
+	.xg th.not-sm-desktop, .xg td.not-sm-desktop,
+	.xg th.not-md-desktop, .xg td.not-md-desktop,
+	.xg th.not-phone, .xg td.not-phone,
+	.xg th.not-tablet, .xg td.not-tablet,
+	.xg th.over-md-desktop, .xg td.over-md-desktop,
+	.xg th.under-xl-desktop, .xg td.under-xl-desktop{
+		display:table-cell !important;
+	}
+	
+	.xg table.lg-desktop, 
+	.xg table.not-xs-desktop, 
+	.xg table.not-sm-desktop, 
+	.xg table.not-md-desktop, 
+	.xg table.not-phone,
+	.xg table.not-tablet,
+	.xg table.over-md-desktop,
+	.xg table.under-xl-desktop{
+		display:table !important;
+	}
+	
+	.xg th.not-lg-desktop, .xg td.not-lg-desktop,
+	.xg th.under-tablet, .xg td.under-tablet,	
+	.xg th.under-xs-desktop, .xg td.under-xs-desktop,
+	.xg th.under-sm-desktop, .xg td.under-sm-desktop,
+	.xg th.under-md-desktop, .xg td.under-md-desktop,
+	.xg th.under-lg-desktop, .xg td.under-lg-desktop,
+	
+	.xg table.not-lg-desktop, 
+	.xg table.under-tablet, 	
+	.xg table.under-xs-desktop, 
+	.xg table.under-sm-desktop,
+	.xg table.under-md-desktop,
+	.xg table.under-lg-desktop{
+		display:none !important;
+	}
+	
+	/* Grids */
+	
+	.xg .grid{
+		padding:10px 100px;
+	}
+	
+	.xg .col-phone-12{width:100%;}
+	.xg .col-phone-11{width:91.6666666666%;}
+	.xg .col-phone-10{width:83.3333333333%;}
+	.xg .col-phone-9{width:74.9999999999%;}
+	.xg .col-phone-8{width:66.6666666666%;}
+	.xg .col-phone-7{width:58.3333333333%;}
+	.xg .col-phone-6{width:49.9999999999%;}
+	.xg .col-phone-5{width:41.6666666666%;}
+	.xg .col-phone-4{width:33.31%;}
+	.xg .col-phone-3{width:24.97%;}
+	.xg .col-phone-2{width:16.63%;}
+	.xg .col-phone-1{width:8.29%;}
+
+	.xg .col-tablet-12{width:100%;}
+	.xg .col-tablet-11{width:91.6666666666%;}
+	.xg .col-tablet-10{width:83.3333333333%;}
+	.xg .col-tablet-9{width:74.9999999999%;}
+	.xg .col-tablet-8{width:66.6666666666%;}
+	.xg .col-tablet-7{width:58.3333333333%;}
+	.xg .col-tablet-6{width:49.9999999999%;}
+	.xg .col-tablet-5{width:41.6666666666%;}
+	.xg .col-tablet-4{width:33.31%;}
+	.xg .col-tablet-3{width:24.97%;}
+	.xg .col-tablet-2{width:16.63%;}
+	.xg .col-tablet-1{width:8.29%;}
+
+	.xg .col-xs-12{width:100%;}
+	.xg .col-xs-11{width:91.6666666666%;}
+	.xg .col-xs-10{width:83.3333333333%;}
+	.xg .col-xs-9{width:74.9999999999%;}
+	.xg .col-xs-8{width:66.6666666666%;}
+	.xg .col-xs-7{width:58.3333333333%;}
+	.xg .col-xs-6{width:49.9999999999%;}
+	.xg .col-xs-5{width:41.6666666666%;}
+	.xg .col-xs-4{width:33.31%;}
+	.xg .col-xs-3{width:24.97%;}
+	.xg .col-xs-2{width:16.63%;}
+	.xg .col-xs-1{width:8.29%;}
+
+	.xg .col-sm-12{width:100%;}
+	.xg .col-sm-11{width:91.6666666666%;}
+	.xg .col-sm-10{width:83.3333333333%;}
+	.xg .col-sm-9{width:74.9999999999%;}
+	.xg .col-sm-8{width:66.6666666666%;}
+	.xg .col-sm-7{width:58.3333333333%;}
+	.xg .col-sm-6{width:49.9999999999%;}
+	.xg .col-sm-5{width:41.6666666666%;}
+	.xg .col-sm-4{width:33.31%;}
+	.xg .col-sm-3{width:24.97%;}
+	.xg .col-sm-2{width:16.63%;}
+	.xg .col-sm-1{width:8.29%;}
+
+	.xg .col-md-12{width:100%;}
+	.xg .col-md-11{width:91.6666666666%;}
+	.xg .col-md-10{width:83.3333333333%;}
+	.xg .col-md-9{width:74.9999999999%;}
+	.xg .col-md-8{width:66.6666666666%;}
+	.xg .col-md-7{width:58.3333333333%;}
+	.xg .col-md-6{width:49.9999999999%;}
+	.xg .col-md-5{width:41.6666666666%;}
+	.xg .col-md-4{width:33.31%;}
+	.xg .col-md-3{width:24.97%;}
+	.xg .col-md-2{width:16.63%;}
+	.xg .col-md-1{width:8.29%;}
+
+	.xg .col-lg-12{width:100%;}
+	.xg .col-lg-11{width:91.6666666666%;}
+	.xg .col-lg-10{width:83.3333333333%;}
+	.xg .col-lg-9{width:74.9999999999%;}
+	.xg .col-lg-8{width:66.6666666666%;}
+	.xg .col-lg-7{width:58.3333333333%;}
+	.xg .col-lg-6{width:49.9999999999%;}
+	.xg .col-lg-5{width:41.6666666666%;}
+	.xg .col-lg-4{width:33.31%;}
+	.xg .col-lg-3{width:24.97%;}
+	.xg .col-lg-2{width:16.63%;}
+	.xg .col-lg-1{width:8.29%;}
+}
+
+/*
+	<<< --------------------------------------------->>>
+	
+	Extra Large Desktop
+	
+	Media queries - This media query defines a screen width
+	of at least 1920px.
+	
+	<<< --------------------------------------------->>>
+*/
+@media(min-width:120em){
+	.xg .lg-desktop{
+		display:none !important;
+	}
+	
+	.xg .xl-desktop, .xg .not-sm-desktop,
+	.xg .not-md-desktop, .xg .not-lg-desktop,
+	.xg .not-phone, .xg .not-tablet, .xg .over-lg-desktop{
+		display:inline-block !important;
+	}
+	
+	.xg .block.xl-desktop, .xg .block.not-sm-desktop,
+	.xg .block.not-md-desktop, .xg .block.not-lg-desktop,
+	.xg .block.not-phone, .xg .block.not-tablet, .xg .block.over-lg-desktop{
+		display:block !important;
+	}
+	
+	.xg .not-xl-desktop, 
+	.xg .under-tablet, .xg .block.under-tablet, 
+	.xg .under-xs-desktop, .xg .block.under-tablet,
+	.xg .under-sm-desktop, .xg .block.under-sm-desktop,
+	.xg .under-md-desktop, .xg .block.under-md-desktop,
+	.xg .under-lg-desktop, .xg .block.under-lg-desktop,
+	.xg .under-xl-desktop, .xg .block.under-xl-desktop{
+		display:none !important;
+	}
+	
+	.xg th.xl-desktop, .xg td.xl-desktop,
+	.xg th.not-xs-desktop, .xg td.not-xs-desktop,
+	.xg th.not-sm-desktop, .xg td.not-sm-desktop,
+	.xg th.not-md-desktop, .xg td.not-md-desktop,
+	.xg th.not-lg-desktop, .xg td.not-lg-desktop,
+	.xg th.not-phone, .xg td.not-phone,
+	.xg th.not-tablet, .xg td.not-tablet,
+	.xg th.over-lg-desktop, .xg td.over-lg-desktop{
+		display:table-cell !important;
+	}
+	
+	.xg table.xl-desktop, 
+	.xg table.not-xs-desktop, 
+	.xg table.not-sm-desktop, 
+	.xg table.not-md-desktop, 
+	.xg table.not-lg-desktop, 
+	.xg table.not-phone, 
+	.xg table.not-tablet, 
+	.xg table.over-lg-desktop{
+		display:table !important;
+	}
+	
+	.xg th.under-tablet, .xg td.under-tablet,	
+	.xg th.under-xs-desktop, .xg td.under-xs-desktop,
+	.xg th.under-sm-desktop, .xg td.under-sm-desktop,
+	.xg th.under-md-desktop, .xg td.under-md-desktop,
+	.xg th.under-lg-desktop, .xg td.under-lg-desktop,
+	.xg th.under-xl-desktop, .xg td.under-xl-desktop,
+	
+	.xg table.under-tablet, 	
+	.xg table.under-xs-desktop, 
+	.xg table.under-sm-desktop, 
+	.xg table.under-md-desktop, 
+	.xg table.under-lg-desktop, 
+	.xg table.under-xl-desktop{
+		display:none !important;
+	}
+	
+	/* Grids */
+	
+	.xg .grid{
+		padding:10px 125px;
+	}
+	
+	.xg .col-phone-12{width:100%;}
+	.xg .col-phone-11{width:91.6666666666%;}
+	.xg .col-phone-10{width:83.3333333333%;}
+	.xg .col-phone-9{width:74.9999999999%;}
+	.xg .col-phone-8{width:66.6666666666%;}
+	.xg .col-phone-7{width:58.3333333333%;}
+	.xg .col-phone-6{width:49.9999999999%;}
+	.xg .col-phone-5{width:41.6666666666%;}
+	.xg .col-phone-4{width:33.31%;}
+	.xg .col-phone-3{width:24.97%;}
+	.xg .col-phone-2{width:16.63%;}
+	.xg .col-phone-1{width:8.29%;}
+
+	.xg .col-tablet-12{width:100%;}
+	.xg .col-tablet-11{width:91.6666666666%;}
+	.xg .col-tablet-10{width:83.3333333333%;}
+	.xg .col-tablet-9{width:74.9999999999%;}
+	.xg .col-tablet-8{width:66.6666666666%;}
+	.xg .col-tablet-7{width:58.3333333333%;}
+	.xg .col-tablet-6{width:49.9999999999%;}
+	.xg .col-tablet-5{width:41.6666666666%;}
+	.xg .col-tablet-4{width:33.31%;}
+	.xg .col-tablet-3{width:24.97%;}
+	.xg .col-tablet-2{width:16.63%;}
+	.xg .col-tablet-1{width:8.29%;}
+
+	.xg .col-xs-12{width:100%;}
+	.xg .col-xs-11{width:91.6666666666%;}
+	.xg .col-xs-10{width:83.3333333333%;}
+	.xg .col-xs-9{width:74.9999999999%;}
+	.xg .col-xs-8{width:66.6666666666%;}
+	.xg .col-xs-7{width:58.3333333333%;}
+	.xg .col-xs-6{width:49.9999999999%;}
+	.xg .col-xs-5{width:41.6666666666%;}
+	.xg .col-xs-4{width:33.31%;}
+	.xg .col-xs-3{width:24.97%;}
+	.xg .col-xs-2{width:16.63%;}
+	.xg .col-xs-1{width:8.29%;}
+
+	.xg .col-sm-12{width:100%;}
+	.xg .col-sm-11{width:91.6666666666%;}
+	.xg .col-sm-10{width:83.3333333333%;}
+	.xg .col-sm-9{width:74.9999999999%;}
+	.xg .col-sm-8{width:66.6666666666%;}
+	.xg .col-sm-7{width:58.3333333333%;}
+	.xg .col-sm-6{width:49.9999999999%;}
+	.xg .col-sm-5{width:41.6666666666%;}
+	.xg .col-sm-4{width:33.31%;}
+	.xg .col-sm-3{width:24.97%;}
+	.xg .col-sm-2{width:16.63%;}
+	.xg .col-sm-1{width:8.29%;}
+
+	.xg .col-md-12{width:100%;}
+	.xg .col-md-11{width:91.6666666666%;}
+	.xg .col-md-10{width:83.3333333333%;}
+	.xg .col-md-9{width:74.9999999999%;}
+	.xg .col-md-8{width:66.6666666666%;}
+	.xg .col-md-7{width:58.3333333333%;}
+	.xg .col-md-6{width:49.9999999999%;}
+	.xg .col-md-5{width:41.6666666666%;}
+	.xg .col-md-4{width:33.31%;}
+	.xg .col-md-3{width:24.97%;}
+	.xg .col-md-2{width:16.63%;}
+	.xg .col-md-1{width:8.29%;}
+
+	.xg .col-lg-12{width:100%;}
+	.xg .col-lg-11{width:91.6666666666%;}
+	.xg .col-lg-10{width:83.3333333333%;}
+	.xg .col-lg-9{width:74.9999999999%;}
+	.xg .col-lg-8{width:66.6666666666%;}
+	.xg .col-lg-7{width:58.3333333333%;}
+	.xg .col-lg-6{width:49.9999999999%;}
+	.xg .col-lg-5{width:41.6666666666%;}
+	.xg .col-lg-4{width:33.31%;}
+	.xg .col-lg-3{width:24.97%;}
+	.xg .col-lg-2{width:16.63%;}
+	.xg .col-lg-1{width:8.29%;}
+
+	.xg .col-xl-12{width:100%;}
+	.xg .col-xl-11{width:91.6666666666%;}
+	.xg .col-xl-10{width:83.3333333333%;}
+	.xg .col-xl-9{width:74.9999999999%;}
+	.xg .col-xl-8{width:66.6666666666%;}
+	.xg .col-xl-7{width:58.3333333333%;}
+	.xg .col-xl-6{width:49.9999999999%;}
+	.xg .col-xl-5{width:41.6666666666%;}
+	.xg .col-xl-4{width:33.31%;}
+	.xg .col-xl-3{width:24.97%;}
+	.xg .col-xl-2{width:16.63%;}
+	.xg .col-xl-1{width:8.29%;}
+}
